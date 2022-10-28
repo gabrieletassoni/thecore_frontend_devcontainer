@@ -1,0 +1,7 @@
+FROM gabrieletassoni/thecore-frontend-common:18
+
+# Add the entrypoints
+RUN mkdir -p /bin/thecore
+COPY scripts/* /usr/bin/
+COPY docker/entrypoint*.sh /bin/thecore/
+RUN chmod +x /bin/thecore/entrypoint*.sh

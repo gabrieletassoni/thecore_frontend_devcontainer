@@ -1,0 +1,14 @@
+FROM gabrieletassoni/thecore-frontend-common:18
+
+# [Optional] Uncomment this section to install additional OS packages.
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends git-flow curl
+
+# Install latest (at time of writing), docker-compose, since Debian 10 one is too old and misses some switches, like --env-file
+RUN curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+RUN chmod +x /usr/local/bin/docker-compose
+
+COPY bin/increment_version.sh /usr/bin/increment_version.sh
+COPY localdockerbuild /etc/thecore/localdockerbuild
+
+RUN groupadd -g 127 -f docker && usermod -aG docker vscode

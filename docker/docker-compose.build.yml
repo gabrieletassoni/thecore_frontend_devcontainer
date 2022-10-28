@@ -1,0 +1,7 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ${CI_PROJECT_DIR}
+      dockerfile: /etc/thecore/docker/Dockerfile

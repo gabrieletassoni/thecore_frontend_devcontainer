@@ -1,0 +1,25 @@
+{
+	"name": "Thecore Frontend Dev",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/thecore_devcontainer/",
+
+	"initializeCommand": "mkdir -p ~/.docker && touch ~/.docker/config.json",
+	
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"misogi.ruby-rubocop",
+				"rogalmic.bash-debug",
+				"shakram02.bash-beautify",
+				"foxundermoon.shell-format",
+				"timonwong.shellcheck"
+			],
+		}
+	},
+	
+	"remoteUser": "vscode"
+}

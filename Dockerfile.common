@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18
+
+WORKDIR /app
+
+RUN su node -c "umask 0002 && npm install --unsafe-perm -g http-server @vue/cli @vue/cli-service-global @ionic/cli@latest native-run cordova-res"
+
+EXPOSE 8080
+
+COPY scripts/ /usr/bin/
+COPY docker /etc/thecore/docker
