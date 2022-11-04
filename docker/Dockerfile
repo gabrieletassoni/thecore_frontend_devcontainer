@@ -8,3 +8,5 @@ SHELL ["/bin/bash", "-c"]
 CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 80
+
+WORKDIR /app
