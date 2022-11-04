@@ -58,13 +58,13 @@ do
             echo "  - found $CUSTOMER doing the remote up thing on $DOCKER_HOST"
             if [[ -f "$PROVIDER"/image ]]
             then
-                IMAGE_TAG_BACKEND=${CI_REGISTRY_IMAGE}/backend-$(head -c -1 "$PROVIDER"/image):$CI_COMMIT_TAG
+                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/backend-$(head -c -1 "$PROVIDER"/image):$CI_COMMIT_TAG
             else
-                IMAGE_TAG_BACKEND=${CI_REGISTRY_IMAGE}/backend:$CI_COMMIT_TAG
+                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/backend:$CI_COMMIT_TAG
             fi
-            export IMAGE_TAG_BACKEND
+            export IMAGE_TAG_FRONTEND
             ssh "$DOCKER_HOST_DOMAIN" -p "$DOCKER_HOST_PORT" "
-                export IMAGE_TAG_BACKEND=$IMAGE_TAG_BACKEND
+                export IMAGE_TAG_FRONTEND=$IMAGE_TAG_FRONTEND
                 cd /tmp/installers
                 docker-compose -f docker-compose.yml -f docker-compose.net.yml --env-file $CUSTOMER up -d --remove-orphans --no-build || exit 2
                 docker system prune -f

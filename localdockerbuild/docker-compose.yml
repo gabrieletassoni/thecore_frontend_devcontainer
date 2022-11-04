@@ -19,7 +19,7 @@ x-common-vars: &commmon-vars
     SMTP_ADDRESS: "${SMTP_ADDRESS:-changeme@example.com}"
     SMTP_USERNAME: "${SMTP_USERNAME:-changeme@example.com}"
     SMTP_PASSWORD: "${SMTP_PASSWORD:-changeme}"
-    IMAGE_TAG_BACKEND: "${IMAGE_TAG_BACKEND}"
+    IMAGE_TAG_FRONTEND: "${IMAGE_TAG_FRONTEND}"
     COMPOSE_PROJECT_NAME: "${COMPOSE_PROJECT_NAME}"
 
 services:
