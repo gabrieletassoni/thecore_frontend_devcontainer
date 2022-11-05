@@ -1,8 +1,11 @@
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18
+FROM node:18-bullseye
+
+COPY os/02nocache /etc/apt/apt.conf.d/02nocache
+COPY os/01_nodoc /etc/dpkg/dpkg.cfg.d/01_nodoc
 
 WORKDIR /app
 
-RUN su node -c "umask 0002 && npm install --unsafe-perm -g http-server @vue/cli @vue/cli-service-global @ionic/cli@latest native-run cordova-res"
+RUN npm install -g @ionic/cli
 
 EXPOSE 8080
 
