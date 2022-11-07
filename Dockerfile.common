@@ -5,7 +5,7 @@ COPY os/01_nodoc /etc/dpkg/dpkg.cfg.d/01_nodoc
 
 WORKDIR /app
 
-RUN npm install -g @ionic/cli
+RUN npm install -g @ionic/cli @vue/cli@next
 
 EXPOSE 8080
 
