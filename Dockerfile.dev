@@ -22,9 +22,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
-# Install latest (at time of writing), docker-compose, since Debian 10 one is too old and misses some switches, like --env-file
-RUN curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-RUN chmod +x /usr/local/bin/docker-compose
+
+RUN usermod -aG docker node
+
+# # Install latest (at time of writing), docker-compose, since Debian 10 one is too old and misses some switches, like --env-file
+# RUN curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+# RUN chmod +x /usr/local/bin/docker-compose
 
 COPY bin/increment_version.sh /usr/bin/increment_version.sh
 
