@@ -1,5 +1,6 @@
 FROM gabrieletassoni/thecore-frontend-common:18
 
+# Install base packages and latest debian keyrings
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update && apt-get -y install --no-install-recommends \
     ca-certificates \
@@ -9,10 +10,12 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
+# Setup Docker repository
 RUN echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
 
+# Install development packages like docker and compose as a docker's plugin
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update && apt-get -y install --no-install-recommends \
         docker-ce docker-ce-cli containerd.io docker-compose-plugin \
@@ -22,22 +25,11 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
-
+# Make user node be aware of docker images
 RUN usermod -aG docker node
 
-# # Install latest (at time of writing), docker-compose, since Debian 10 one is too old and misses some switches, like --env-file
-# RUN curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-# RUN chmod +x /usr/local/bin/docker-compose
-
-COPY bin/increment_version.sh /usr/bin/increment_version.sh
-
-# RUN useradd -ms /bin/bash vscode \
-#     && usermod -aG sudo vscode \
-#     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-#     && usermod -aG docker vscode
-
+# As user node, modify bash prompt to our needs
+USER node
 RUN echo 'export PS1="\e[32m\u\e[0m ► \e[96m\W\e[0m [\e[31m\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)\e[0m:\e[33m\$(git describe --tags --abbrev=0 2>/dev/null)\e[0m] \$ "'  >> ~/.bashrc \
     && echo 'export APPBIN=/app/bin'  >> ~/.bashrc \
     && echo 'export CODEBIN=$(find $HOME/.vscode-server/bin/* -maxdepth 1 -mindepth 1 -name bin)'  >> ~/.bashrc
-
-USER node

@@ -1,13 +1,18 @@
 FROM node:18-bullseye
 
+# Don't cache apt packages and prevent manuals and documentation installation
 COPY os/02nocache /etc/apt/apt.conf.d/02nocache
 COPY os/01_nodoc /etc/dpkg/dpkg.cfg.d/01_nodoc
 
 WORKDIR /app
 
+# Install required/latest cli to deal with Ionic Vue
 RUN npm install -g @ionic/cli @vue/cli@next
 
 EXPOSE 8080
 
+# Put ito this image, the needed scripts, dockefiles and compose files to 
+# deal with pipeline CI/CD.
 COPY scripts/ /usr/bin/
 COPY docker /etc/thecore/docker
+COPY bin/increment_version.sh /usr/bin/increment_version.sh
