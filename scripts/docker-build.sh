@@ -8,7 +8,6 @@ echo "Building Image $IMAGE_TAG_FRONTEND"
 DOCKERFILE_LOCATION="$1"
 
 echo "Using $DOCKERFILE_LOCATION for build and files from $DIRNAME"
-
 docker build -f "$DOCKERFILE_LOCATION" --no-cache --pull -t "${IMAGE_TAG_FRONTEND}" .
 
 echo "Login at $CI_REGISTRY"
