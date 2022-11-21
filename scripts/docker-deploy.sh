@@ -3,6 +3,12 @@
 echo "COMMIT TAG: ${CI_COMMIT_TAG}"
 VERSION=${CI_COMMIT_TAG}
 
+# Used to not have conflicting installations
+UUID=$(cat /proc/sys/kernel/random/uuid)
+TARGET_DIR="/tmp/installers/$UUID"
+
+echo "Target Dir: $TARGET_DIR"
+
 # Setup SSH trust 
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
@@ -49,10 +55,11 @@ do
         export DOCKER_HOST_DOMAIN
         DOCKER_HOST_PORT="$(echo "$DOCKER_HOST" | cut -d'/' -f3 | cut -d':' -f2)"
         export DOCKER_HOST_PORT
+        echo "Preparing target installer dir"
         ssh "$DOCKER_HOST_DOMAIN" -p "$DOCKER_HOST_PORT" "
             docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY || exit 1
-            mkdir -p /tmp/installers"
-        rsync -arvz -e "ssh -p $DOCKER_HOST_PORT" --progress --delete /etc/thecore/docker/docker-compose.yml /etc/thecore/docker/docker-compose.net.yml "$PROVIDER" "${DOCKER_HOST_DOMAIN}:/tmp/installers/"
+            mkdir -p $TARGET_DIR"
+        rsync -arvz -e "ssh -p $DOCKER_HOST_PORT" --progress --delete /etc/thecore/docker/docker-compose.yml /etc/thecore/docker/docker-compose.net.yml "$PROVIDER" "${DOCKER_HOST_DOMAIN}:$TARGET_DIR"
         for CUSTOMER in "$PROVIDER"/*.env
         do
             echo "  - found $CUSTOMER doing the remote up thing on $DOCKER_HOST"
@@ -63,12 +70,19 @@ do
                 IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/frontend:$CI_COMMIT_TAG
             fi
             export IMAGE_TAG_FRONTEND
+            echo "IMAGE TAG FRONTEND: $IMAGE_TAG_FRONTEND"
             ssh "$DOCKER_HOST_DOMAIN" -p "$DOCKER_HOST_PORT" "
                 export IMAGE_TAG_FRONTEND=$IMAGE_TAG_FRONTEND
-                cd /tmp/installers
-                docker-compose -f docker-compose.yml -f docker-compose.net.yml --env-file $CUSTOMER up -d --remove-orphans --no-build || exit 2
+                echo CD into $TARGET_DIR
+                cd $TARGET_DIR
+                echo Testing Config for $CUSTOMER
+                docker compose -f docker-compose.yml -f docker-compose.net.yml --env-file $CUSTOMER config || exit 3
+                echo Compose up on $CUSTOMER
+                docker compose -f docker-compose.yml -f docker-compose.net.yml --env-file $CUSTOMER up -d --remove-orphans --no-build || exit 2
+                echo Cleaning Docker system
                 docker system prune -f
-                docker logout $CI_REGISTRY"
+                docker logout $CI_REGISTRY
+                rm -rf $TARGET_DIR"
         done
     fi
 done
