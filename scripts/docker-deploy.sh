@@ -58,9 +58,9 @@ do
             echo "  - found $CUSTOMER doing the remote up thing on $DOCKER_HOST"
             if [[ -f "$PROVIDER"/image ]]
             then
-                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/backend-$(head -c -1 "$PROVIDER"/image):$CI_COMMIT_TAG
+                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/frontend-$(head -c -1 "$PROVIDER"/image):$CI_COMMIT_TAG
             else
-                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/backend:$CI_COMMIT_TAG
+                IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/frontend:$CI_COMMIT_TAG
             fi
             export IMAGE_TAG_FRONTEND
             ssh "$DOCKER_HOST_DOMAIN" -p "$DOCKER_HOST_PORT" "
