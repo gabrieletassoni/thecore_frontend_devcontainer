@@ -2,4 +2,3 @@
 
 bin/build-common
 bin/build-for-dev
-bin/build-for-deploy

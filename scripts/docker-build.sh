@@ -9,7 +9,7 @@ echo "Using $1 for build and files from $DIRNAME"
 docker build -f "$1" --no-cache --pull -t "${IMAGE_TAG_FRONTEND}" .
 
 echo "Login at $CI_REGISTRY"
-docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
 
 echo "Pushing Image $IMAGE_TAG_FRONTEND"
 docker image push "${IMAGE_TAG_FRONTEND}"
