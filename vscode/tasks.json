@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create a Ionic Vue App",
+      "type": "shell",
+      "command": "/usr/bin/create-ionic-vue-app.sh",
+      "args": [
+        "${input:appName}"  // Argument appName is passed to the script
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "appName",
+      "type": "promptString",
+      "description": "Provide the name of the Ionic Vue project in lower case with hyphens",
+      // It must comply with camelCase
+      "default": "my-app"
+    }
+  ]
+}

@@ -1,4 +1,7 @@
-FROM gabrieletassoni/thecore-frontend-common:18
+FROM gabrieletassoni/thecore-frontend-common:22
+
+# Copy the vscode/tasks.json file to the container in the /etc/thecore folder
+COPY vscode/tasks.json /etc/thecore/vscode/tasks.json
 
 # Install base packages and latest debian keyrings
 RUN export DEBIAN_FRONTEND=noninteractive \
@@ -21,9 +24,6 @@ RUN echo \
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update && apt-get -y install --no-install-recommends \
         docker-ce docker-ce-cli containerd.io docker-compose-plugin \
-        git-flow \
-        python3-pip \
-    && python3 -m pip install semgrep \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 
@@ -38,3 +38,4 @@ USER node
 RUN echo 'export PS1="\e[32m\u\e[0m ► \e[96m\W\e[0m [\e[31m\$(git rev-parse --abbrev-ref HEAD 2>/dev/null)\e[0m:\e[33m\$(git describe --tags --abbrev=0 2>/dev/null)\e[0m] \$ "'  >> ~/.bashrc \
     && echo 'export APPBIN=/app/bin'  >> ~/.bashrc \
     && echo 'export CODEBIN=$(find $HOME/.vscode-server/bin/* -maxdepth 1 -mindepth 1 -name bin)'  >> ~/.bashrc
+

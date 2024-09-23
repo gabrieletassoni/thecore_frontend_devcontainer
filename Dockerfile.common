@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:22-bookworm
 
 # Don't cache apt packages and prevent manuals and documentation installation
 COPY os/02nocache /etc/apt/apt.conf.d/02nocache
@@ -7,7 +7,7 @@ COPY os/01_nodoc /etc/dpkg/dpkg.cfg.d/01_nodoc
 WORKDIR /app
 
 # Install required/latest cli to deal with Ionic Vue
-RUN npm install -g @ionic/cli @vue/cli@next
+RUN npm install -g @ionic/cli@latest
 
 EXPOSE 8080
 
