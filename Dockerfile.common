@@ -8,6 +8,7 @@ WORKDIR /app
 
 # Install required/latest cli to deal with Ionic Vue
 RUN npm install -g @ionic/cli@latest
+RUN npm install -g create-vite@latest
 
 EXPOSE 8080
 
