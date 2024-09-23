@@ -18,7 +18,7 @@ PROJECT_NAME=$1
 
 # Step 1: Create a new Vue.js project with Vite using the Vue template
 echo "Creating Vue.js project with Vite..."
-npm create vite@latest "$PROJECT_NAME" -- --template vue
+npm create vite@latest "$PROJECT_NAME" -y -- --template vue
 
 # Enter the project directory
 cd "$PROJECT_NAME" || exit
