@@ -21,7 +21,7 @@ echo "Creating Vue.js project with Vite..."
 npm create vite@latest "$PROJECT_NAME" -- --template vue
 
 # Enter the project directory
-# cd $PROJECT_NAME || exit
+cd "$PROJECT_NAME" || exit
 
 # Step 2: Install Ionic and Pinia dependencies
 echo "Installing Ionic 8, Ionic Router, and Pinia..."
