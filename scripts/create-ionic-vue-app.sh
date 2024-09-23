@@ -1,20 +1,27 @@
 #!/bin/bash -e
 
 # Check if a project name has been provided
-if [ -z "$1" ]; then
-  echo "Error: specify the project name as an argument."
-  echo "Usage: $0 <project_name>"
-  exit 1
-fi
+# if [ -z "$1" ]; then
+#   echo "Error: specify the project name as an argument."
+#   echo "Usage: $0 <project_name>"
+#   exit 1
+# fi
 
 # Check if $1 is valid for vite name: only lowercase letters and hyphens
-if [[ ! "$1" =~ ^[a-z-]+$ ]]; then
-  echo "Error: the project name can only contain lowercase letters and hyphens."
-  exit 1
-fi
+# if [[ ! "$1" =~ ^[a-z-]+$ ]]; then
+#   echo "Error: the project name can only contain lowercase letters and hyphens."
+#   exit 1
+# fi
 
 # Project name passed as an argument
-PROJECT_NAME=$1
+# PROJECT_NAME=$1
+PROJECT_NAME="ionic"
+
+# if the $PROJECTNAME directory already exists, exit
+if [ -d "$PROJECT_NAME" ]; then
+  echo "Error: the directory $PROJECT_NAME already exists."
+  exit 1
+fi
 
 # Step 1: Create a new Vue.js project with Vite using the Vue template
 echo "Creating Vue.js project with Vite..."
@@ -25,7 +32,7 @@ cd "$PROJECT_NAME" || exit
 
 # Step 2: Install Ionic and Pinia dependencies
 echo "Installing Ionic 8, Ionic Router, and Pinia..."
-npm install @ionic/vue@^8 @ionic/vue-router@^8 ionicons pinia @vue/cli-service@latest
+npm install @ionic/vue@^8 @ionic/vue-router@^8 ionicons pinia @vue/cli-service@latest vue-router@latest
 
 # Step 3: Add necessary development dependencies
 echo "Installing development dependencies..."
