@@ -15,7 +15,7 @@
 
 # Project name passed as an argument
 # PROJECT_NAME=$1
-PROJECT_NAME="ionic"
+PROJECT_NAME="app"
 
 # if the $PROJECTNAME directory already exists, exit
 if [ -d "$PROJECT_NAME" ]; then
