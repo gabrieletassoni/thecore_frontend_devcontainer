@@ -5,9 +5,9 @@ rm -rf /tmp/src.orig
 cp --verbose -rf src /tmp/src.orig
 
 # Actual build of the solution
-yarn install --cache-folder .yarn
+npm install
 rm -rf dist
-ionic build --prod --release
+npm run build
 
 export IMAGE_TAG_FRONTEND=${CI_REGISTRY_IMAGE}/frontend:$CI_COMMIT_TAG
 echo "Building $IMAGE_TAG_FRONTEND"

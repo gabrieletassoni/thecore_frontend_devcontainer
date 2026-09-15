@@ -23,7 +23,7 @@ RUN echo \
 # Install development packages like docker and compose as a docker's plugin
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update && apt-get -y install --no-install-recommends \
-        docker-ce docker-ce-cli containerd.io docker-compose-plugin \
+        docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* 
 

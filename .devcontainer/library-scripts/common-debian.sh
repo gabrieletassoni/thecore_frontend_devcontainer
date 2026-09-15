@@ -94,13 +94,19 @@ if [ "${PACKAGES_ALREADY_INSTALLED}" != "true" ]; then
         libgcc1 \
         libgssapi-krb5-2 \
         libicu[0-9][0-9] \
-        liblttng-ust0 \
         libstdc++6 \
         zlib1g \
         locales \
         sudo \
         ncdu \
         man-db"
+
+    # Install whichever liblttng-ust version is available (renamed liblttng-ust0 -> liblttng-ust1 in Debian 12/bookworm)
+    if [[ ! -z $(apt-cache --names-only search ^liblttng-ust1$) ]]; then
+        PACKAGE_LIST="${PACKAGE_LIST}       liblttng-ust1"
+    elif [[ ! -z $(apt-cache --names-only search ^liblttng-ust0$) ]]; then
+        PACKAGE_LIST="${PACKAGE_LIST}       liblttng-ust0"
+    fi
 
     # Install libssl1.1 if available
     if [[ ! -z $(apt-cache --names-only search ^libssl1.1$) ]]; then
